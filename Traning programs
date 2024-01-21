@@ -1,0 +1,598 @@
+1 Implement below program using Java Concepts
+a. Create a class name as ReadAnWriteDate
+b. Read the data from Excel Sheet(use Apache POI) and should have below columns and should contain data
+           Name, Courses, Fee
+            Kirk,Java, $100
+            Dan,Python,$100
+c. Use collections concept to store the reading data and display it in console.
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+public class ReadAnWriteDate {
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+        try {
+            FileInputStream fis = new FileInputStream(new File("students.xlsx"));
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheetAt(0);
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+                Student student = new Student();
+                student.setName(row.getCell(0).getStringCellValue());
+                student.setCourse(row.getCell(1).getStringCellValue());
+                student.setFee(row.getCell(2).getNumericCellValue());
+                students.add(student);
+            }
+            workbook.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+        for (Student student : students) {
+            System.out.println(student.getName() + " " + student.getCourse() + " " + student.getFee());
+        }
+    }
+}
+ 
+class Student {
+    private String name;
+    private String course;
+    private double fee;
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public void setName(String name) {
+        this.name = name;
+    }
+ 
+    public String getCourse() {
+        return course;
+    }
+ 
+    public void setCourse(String course) {
+        this.course = course;
+    }
+ 
+    public double getFee() {
+        return fee;
+    }
+ 
+    public void setFee(double fee) {
+        this.fee = fee;
+    }
+}
+
+2. Implement below program using Python
+a. Create a class name as ReadAnWriteDate
+b. Read the data from CSV File and should have below columns and should contain data
+           Name, Skillset,Experience
+            Kirk,Java, 10 Years
+            Dan,Python,5 Years
+c. Build a Data Structure to display the data which contains in CSV file
+
+
+
+import csv
+
+class ReadAndWriteDate:
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.data = self.read_data_from_csv()
+
+    def read_data_from_csv(self):
+        data_list = []
+        with open(self.file_name, mode='r') as file:
+            csv_reader = csv.DictReader(file)
+            for row in csv_reader:
+                data_list.append(row)
+        return data_list
+
+    def display_data(self):
+        print("Name\tSkillset\tExperience")
+        for row in self.data:
+            print(f"{row['Name']}\t{row['Skillset']}\t{row['Experience']}")
+
+if __name__ == "__main__":
+    file_name = "data.csv"
+    read_and_write_date = ReadAndWriteDate(file_name)
+    read_and_write_date.display_data()
+
+
+
+
+
+
+3. Launch a below browser in Chrome and verify below conditions using Selenium (use XPaths to identify Web Elements) with Java
+     https://www.automationanywhere.com/
+a. Automation Anywhere logo should be present
+b. Verify Request demo button is present and verify if it is clickable or not
+
+
+
+1. Set up your project with Maven:
+
+<!-- pom.xml -->
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.141.59</version>
+    </dependency>
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.3.0</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+
+2. Create a TestNG class to perform the verification:
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class AutomationAnywhereTest {
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+        System.setProperty("webdriver.chrome.driver", "/lib/chromeDriver/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://www.automationanywhere.com/");
+    }
+
+    @Test
+    public void testAutomationAnywherePage() {
+        WebElement logo = driver.findElement(By.xpath("//img[@alt='Automation Anywhere']"));
+        Assert.assertTrue(logo.isDisplayed(), "Automation Anywhere logo is not present");
+
+        WebElement requestDemoButton = driver.findElement(By.xpath("//a[contains(text(),'Request Demo')]"));
+        Assert.assertTrue(requestDemoButton.isDisplayed(), "Request Demo button is not present");
+        Assert.assertTrue(requestDemoButton.isEnabled(), "Request Demo button is not clickable");
+    }
+
+    @AfterTest
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+
+4. Launch a below browser in Chrome and verify below conditions useing Selenium (use XPaths to identify Web Elements) with Java
+     https://www.automationanywhere.com/
+verify below list is present on home page and click on each and every link and verify that it is navigating to the proper page.
+     a. Products
+     b.Solutions
+     c.Resources
+     d.Beyond RPA
+      e.Company
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+public class AutomationAnywhereTest {
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+        System.setProperty("webdriver.chrome.driver", "/lib/chromeDriver/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://www.automationanywhere.com/");
+    }
+
+    @Test
+    public void testAutomationAnywherePage() {
+        verifyElementPresence("//img[@alt='Automation Anywhere']", "Automation Anywhere logo");
+        verifyElementPresence("//a[contains(text(),'Request Demo')]", "Request Demo button");
+
+        clickAndVerifyNavigation("//a[contains(text(),'Products')]", "Products");
+        clickAndVerifyNavigation("//a[contains(text(),'Solutions')]", "Solutions");
+        clickAndVerifyNavigation("//a[contains(text(),'Resources')]", "Resources");
+        clickAndVerifyNavigation("//a[contains(text(),'Beyond RPA')]", "Beyond RPA");
+        clickAndVerifyNavigation("//a[contains(text(),'Company')]", "Company");
+    }
+
+    private void verifyElementPresence(String xpath, String elementName) {
+        WebElement element = driver.findElement(By.xpath(xpath));
+        Assert.assertTrue(element.isDisplayed(), elementName + " is not present on the page");
+    }
+
+    private void clickAndVerifyNavigation(String xpath, String linkName) {
+        WebElement link = driver.findElement(By.xpath(xpath));
+        Assert.assertTrue(link.isDisplayed(), linkName + " link is not present on the page");
+
+        link.click();
+
+        Assert.assertNotEquals(driver.getTitle(), "404 Not Found", "Navigation to " + linkName + " failed");
+
+        System.out.println("Successfully navigated to " + linkName);
+        driver.navigate().back();
+    }
+
+    @AfterTest
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+
+
+5. Implement above 2 programs using TestNG concepts and write it using @Test annotation. And add TestNG Attributes - priority, enabled and timeOut torun the programs. 
+Run the program with enabled attribute value as either true or false
+Run the program with timeOut Attribute values
+And run 3 and 4 programs from TestNG.xml file and verify the generated test reports.
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class AutomationAnywhereTest {
+
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+        System.setProperty("webdriver.chrome.driver", "/lib/chromeDriver/chromedriver.exe ");
+        driver = new ChromeDriver();
+        driver.get("https://www.automationanywhere.com/");
+    }
+
+    @Test(priority = 1, enabled = true, timeOut = 10000)
+    public void verifyElementsOnHomePage() {
+    }
+
+    @Test(priority = 2, enabled = true, timeOut = 15000)
+    public void clickAndVerifyNavigation() {
+    }
+
+    @AfterTest
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+
+### Program 2: Read and Write Data with Apache POI
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Iterator;
+
+public class ReadAndWriteDateTest {
+
+    private static final String FILE_NAME = "example.xlsx";
+
+    @Test(priority = 1, enabled = false, timeOut = 5000)
+    public void readAndWriteDataTest() {
+
+    }
+}
+
+
+### TestNG XML File (testng.xml)
+
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuite">
+    <test name="AutomationAnywhereTest">
+        <classes>
+            <class name="AutomationAnywhereTest">
+                <methods>
+                    <include name="verifyElementsOnHomePage" />
+                    <include name="clickAndVerifyNavigation" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="ReadAndWriteDateTest">
+        <classes>
+            <class name="ReadAndWriteDateTest">
+                <methods>
+                    <include name="readAndWriteDataTest" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+
+6. 
+Create a Maven Project and implement all the programs in Maven Project and add Apache POI dependency in pom.xml and run all the programs using Maven commands.
+
+
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=selenium-apache-poi -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+
+
+<dependencies>
+    <!-- Selenium WebDriver -->
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.141.59</version>
+    </dependency>
+
+    <!-- Apache POI -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>4.1.2</version>
+    </dependency>
+
+    <!-- TestNG -->
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.3.0</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+
+Created Java classes (`AutomationAnywhereTest.java` and `ReadAndWriteDateTest.java`) in the `src/test/java` directory
+
+
+  mvn test
+  
+
+  mvn surefire-report:report-only
+  
+
+
+
+
+7. Create a branch name as comprehensive_basic_2 in GitHub and implement all the above programs in that branch and push the code into the same branch. Share the GitHub details to evaluate. Write the git commands accordingly
+
+
+
+
+git checkout main
+
+git checkout -b comprehensive_basic_2
+
+
+git add 
+
+git commit -m "Implement programs for comprehensive_basic_2"
+
+
+
+git push origin comprehensive_basic_2
+
+
+GitHub Repository: https://github.com/Chevvavikram/comprehensive_basic_2.git
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8. Create a collection in Postman and create positive and negative cases for below API. And use get method to get valid responses.
+Verify the HTTP status codes, while running Positive and negative Test Cases.
+
+https://restcountries.com/v3.1/name/India
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response contains valid country information", function () {
+    pm.expect(pm.response.json()).to.have.property('name', 'India');
+});
+
+
+
+
+pm.test("Status code is 404 for invalid country name", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("Status code is 404 for invalid API endpoint", function () {
+    pm.response.to.have.status(404);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9. Implement below steps in JMeter
+	1. Create a Test Plan
+	2. Create a Thread Group and Add umber of threads (count is 2)
+	3. Add HTTP Request (use https protocol) and URL as https://www.w3schools.com/
+	4. Add HTML Assertions
+	5. Add Error Threshold as zero
+	6. Add Warning Threshold count
+	7. Run the script
+
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1 r1855137">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">2</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1645607473000</longProp>
+        <longProp name="ThreadGroup.end_time">1645607473000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">www.w3schools.com</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HTMLAssertion guiclass="HTMLAssertionGui" testclass="HTMLAssertion" testname="HTML Assertion" enabled="true">
+            <stringProp name="ASSERTION_RESULTS_FAILURE_MESSAGE"></stringProp>
+            <stringProp name="ASSERTION_RESULTS_FAILURE"></stringProp>
+            <stringProp name="ASSERTION_RESULTS_MESSAGE"></stringProp>
+            <stringProp name="ASSERTION_RESULTS_ASSERTION_NAME"></stringProp>
+            <stringProp name="HTML_ASSERTION_DOCTYPE_KEY"></stringProp>
+            <stringProp name="HTML_ASSERTION_FILE">index.html</stringProp>
+            <stringProp name="HTML_ASSERTION_PARSER">jsoup</stringProp>
+            <stringProp name="HTML_ASSERTION_ERROR_THRESHOLD">0</stringProp>
+            <stringProp name="HTML_ASSERTION_WARNING_THRESHOLD">0</stringProp>
+          </HTMLAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
+
+
+
+
+
+
+
+
+
+
+
+
+10. Create a Test File Names as test_fixtures_2.py in Visual Studio Code
+Implement data fixtures using decorator, which returns dictionary type of data. And for each fixture, write corresponding test function
+
+
+
+import pytest
+
+@pytest.fixture
+def test_data():
+    return {'name': 'John Doe', 'age': 30, 'city': 'New York'}
+def test_name(test_data):
+    assert test_data['name'] == 'John Doe'
+import pytest
+
+@pytest.fixture
+def test_data():
+    return {'name': 'John Doe', 'age': 30, 'city': 'New York'}
+
+@pytest.fixture
+def test_data2():
+    return {'name': 'Jane Doe', 'age': 25, 'city': 'Los Angeles'}
+
+def test_name(test_data):
+    assert test_data['name'] == 'John Doe'
+
+def test_age(test_data):
+    assert test_data['age'] == 30
+
+def test_city(test_data):
+    assert test_data['city'] == 'New York'
+
+def test_name2(test_data2):
+    assert test_data2['name'] == 'Jane Doe'
+
+def test_age2(test_data2):
+    assert test_data2['age'] == 25
+
+def test_city2(test_data2):
+    assert test_data2['city'] == 'Los Angeles'
+
+pytest cktest_fixtures_2.py
+
